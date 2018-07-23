@@ -14,7 +14,7 @@ Installation:
 	Add this code lines above:
 	```
 	_isGamble = _cursorTarget isKindOf "Hooker4"; // Define here the trader or the building where you get the gambling dialog
-	if (_isGamble && _canDo) then {
+	if (_isGamble && {_isAlive} && {_canDo}) then {
 		_hasCards = "ItemCards" in magazines player;
 		if (_hasCards) then {
 			if (s_player_gamblefree < 0) then {
