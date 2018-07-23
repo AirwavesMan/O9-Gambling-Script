@@ -1,4 +1,4 @@
-# Over9000 Gamling Script
+# Over9000 Gambling Script
 
 Over9000 Gambling Script by A Man
 If you use it please give credit
@@ -8,8 +8,10 @@ Works only with ZSC: https://github.com/oiad/ZSC
 
 Installation:
 
-1.	Put the scripts folder from github in your missionfile root folder where your init.sqf is.
-2.	Open your fn_selfactions.sqf and search for: //Towing with tow truck
+1.	Put the scripts folder from github into your missionfile root folder where your init.sqf is located.
+2.	Open your fn_selfactions.sqf and search for: 
+
+	```//Towing with tow truck```
 
 	Add this code lines above:
 	```
@@ -50,14 +52,14 @@ Installation:
 	```	
 	And add behind:
 	```
-		player removeAction s_player_gamblefree;
-		s_player_gamblefree = -1;
-		player removeAction s_player_gamble1;
-		s_player_gamble1 = -1;
-		player removeAction s_player_gamble2;
-		s_player_gamble2 = -1;
-		player removeAction s_player_gamble3;
-		s_player_gamble3 = -1;
+	player removeAction s_player_gamblefree;
+	s_player_gamblefree = -1;
+	player removeAction s_player_gamble1;
+	s_player_gamble1 = -1;
+	player removeAction s_player_gamble2;
+	s_player_gamble2 = -1;
+	player removeAction s_player_gamble3;
+	s_player_gamble3 = -1;
 	```	
 4.	Open your variables.sqf and search for:
 	```
