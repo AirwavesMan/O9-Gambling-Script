@@ -96,7 +96,7 @@ Installation:
 	```
 	If you get on server start the error class CfgSounds is alreday defined, search your files for class CfgSounds.
 	
-6.	Go to https://github.com/oiad/communityLocalizations and add the whole stringtable to your missionfile.
+6.	Go to https://github.com/oiad/communityLocalizations and add the whole stringtable to the root folder of your missionfile where your init.sqf is.
 
 Usage:
 
