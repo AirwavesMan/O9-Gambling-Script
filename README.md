@@ -20,17 +20,17 @@ Installation:
 		_hasCards = "ItemCards" in magazines player;
 		if (_hasCards) then {
 			if (s_player_gamblefree < 0) then {
-				s_player_gamblefree = player addAction [localize "STR_GAMBLE_PriceFree", "scripts\gamble\gamble.sqf",0, 1, false, true];
+				s_player_gamblefree = player addAction [localize "STR_CL_GAMBLE_PriceFree", "scripts\gamble\gamble.sqf",0, 1, false, true];
 			};
 		};	
 		if (s_player_gamble1 < 0) then {
-			s_player_gamble1 = player addAction [localize "STR_GAMBLE_Price1x", "scripts\gamble\gamble.sqf",1000, 1, false, true];
+			s_player_gamble1 = player addAction [localize "STR_CL_GAMBLE_Price1x", "scripts\gamble\gamble.sqf",1000, 1, false, true];
 		};
 		if (s_player_gamble2 < 0) then {
-			s_player_gamble2 = player addAction [localize "STR_GAMBLE_Price2x", "scripts\gamble\gamble.sqf",2000, 1, false, true];
+			s_player_gamble2 = player addAction [localize "STR_CL_GAMBLE_Price2x", "scripts\gamble\gamble.sqf",2000, 1, false, true];
 		};
 		if (s_player_gamble3 < 0) then {
-			s_player_gamble3 = player addAction [localize "STR_GAMBLE_Price3x", "scripts\gamble\gamble.sqf",3000, 1, false, true];
+			s_player_gamble3 = player addAction [localize "STR_CL_GAMBLE_Price3x", "scripts\gamble\gamble.sqf",3000, 1, false, true];
 		};
 	} else {
 		player removeAction s_player_gamblefree;
