@@ -6,7 +6,7 @@
 //////////											//////////
 //////////////////////////////////////////////////////////////
 
-if ((isNil Z_singleCurrency) || !Z_singleCurrency) exitWith { diag_log "[ERROR] Over9000 Gambling script won't run without ZSC being installed and enabled."};
+if ((isNil "Z_singleCurrency") || !Z_singleCurrency) exitWith { diag_log "[ERROR] Over9000 Gambling script won't run without ZSC being installed and enabled."};
 
 if (isNil "Over9000_Gambling") then { Over9000_Gambling = false;};
 
