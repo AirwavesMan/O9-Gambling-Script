@@ -6,18 +6,23 @@
 //////////											//////////
 //////////////////////////////////////////////////////////////
 
+if ((isNil Z_singleCurrency) || !Z_singleCurrency) exitWith { diag_log "[ERROR] Over9000 Gambling script won't run without ZSC being installed and enabled."};
 
-if (isNil "Over9000_Gambling") then { 
-	Over9000_Gambling = false; 
-};
+if (isNil "Over9000_Gambling") then { Over9000_Gambling = false;};
 
 if (Over9000_Gambling) exitWith { localize "STR_CL_GAMBLE_ALREADY" call dayz_rollingMessages;};
 
-private ["_fn_additems", "_playerMoney", "_gambleAmount", "_freeTry", "_hasCards", "_playerMoneyNew", "_hasGold", "_gambleChance", "_winNumbers", "_prizeWeapons", "_prizeTools", "_prizeAmmo", "_prizeItems", "_multi", "_money", "_coins", "_winOutput", "_qyt", "_fn_additems", "_itemDisplay"];
+private ["_currency", "_fn_additems", "_playerMoney", "_gambleAmount", "_freeTry", "_hasCards", "_playerMoneyNew", "_hasGold", "_gambleChance", "_winNumbers", "_prizeWeapons", "_prizeTools", "_prizeAmmo", "_prizeItems", "_multi", "_money", "_coins", "_winOutput", "_qyt", "_fn_additems", "_itemDisplay"];
 closeDialog 0;
 
+if (isNil "CurrencyName") then {
+	_currency = "Coins";
+} else {
+	_currency = CurrencyName;
+};
+
 _fn_additems = {
-	private ["_item", "_qyt", "_type", "_itemtype", "_holder", "_magazine", "_sniperweapons", "_pos."];
+	private ["_item", "_qyt", "_type", "_itemtype", "_holder", "_magazine", "_pos"];
 
 	_item = _this select 0;
 	_qyt = _this select 1;
@@ -39,7 +44,7 @@ _fn_additems = {
 	if (_type == 2) exitwith {
 		_holder addMagazineCargoGlobal [_item,_qyt];
 	};
-};	
+};
 
 _playerMoney = player getVariable [Z_MoneyVariable,0];
 _gambleAmount = _this select 3;
@@ -50,9 +55,9 @@ if (_gambleAmount == 0 ) then {
 	_freeTry = true;
 };
 
-if ((_gambleAmount == 0) && !_hasCards ) exitwith {_freeTry = false; localize  "STR_CL_GAMBLE_PriceFree_NO_CARDS" call dayz_rollingMessages;};
+if ((_gambleAmount == 0) && !_hasCards ) exitwith {_freeTry = false; localize "STR_CL_GAMBLE_PRICEFREE_NO_CARDS" call dayz_rollingMessages;};
 
-if ((_playerMoney < _gambleAmount) && !_freeTry) exitwith { localize "STR_CL_GAMBLE_NO_MONEY" call dayz_rollingMessages;};
+if ((_playerMoney < _gambleAmount) && !_freeTry) exitwith { format [ localize "STR_CL_GAMBLE_NO_MONEY", _currency ] call dayz_rollingMessages;};
 
 if (_freeTry) then {
 	player removeMagazine "ItemCards";
@@ -85,18 +90,18 @@ if (_gambleAmount == 3000) then {
 
 if (_hasGold) then {
 	_hasGold = false;
-	Over9000_Gambling = true; 
+	Over9000_Gambling = true;
 	if (_freeTry) then {
 		localize "STR_CL_GAMBLE_GAMBLING_FOR_FREE" call dayz_rollingMessages;
 	} else {
-		format [localize "STR_CL_GAMBLE_GAMBLING_FOR_X_COINS",[_gambleAmount] call BIS_fnc_numberText] call dayz_rollingMessages;
+		format [localize "STR_CL_GAMBLE_GAMBLING_FOR_X_COINS", [_gambleAmount] call BIS_fnc_numberText, _currency] call dayz_rollingMessages;
 	};
 	uiSleep 5;
 	//_gambleChance = [3,32,44,54,66,68,71,88,120,132,134,146,147,149,154,175,189,199,221,231,249,276,290,310,343,344,354,376,396,404,442,456,479,491,523,541,589,611,635,676,678,689,739,786,832,856,876,921,934,959,999,1001,1043,1110,1199,1204,1214,1224,1234,1244,1245,1254,1259,1499]call BIS_fnc_selectRandom;
 
 	if (_gambleChance in _winNumbers) then {
-		[objNull, player, rSAY, "tada",5] call RE;	
-		
+		[objNull, player, rSAY, "tada",5] call RE;
+
 		if (_gambleChance == 1499) then {
 			uisleep 2;
 			[objNull, player, rSAY, "tada",5] call RE;
@@ -104,77 +109,75 @@ if (_hasGold) then {
 			_coins = (400000 + floor(random 2000000))*_multi; // Jackpot
 			player setVariable [Z_MoneyVariable,(_money + _coins),true];
 			call player_forceSave;
-			format [localize "STR_CL_GAMBLE_WON_COINS_JACKPOT",[_coins] call BIS_fnc_numberText] call dayz_rollingMessages;
+			format [localize "STR_CL_GAMBLE_WON_COINS_JACKPOT", [_coins] call BIS_fnc_numberText, _currency] call dayz_rollingMessages;
 			uisleep 2;
-			[objNull, player, rSAY, "tada",5] call RE;					
+			[objNull, player, rSAY, "tada",5] call RE;
 		};
-			
+
 		[player,"tada",0,false,5,true] call dayz_zombieSpeak;
-			
+
 		if (_gambleChance < 200) then {
 			_winOutput = _prizeWeapons call BIS_fnc_selectRandom;
 			_qyt = 1*_multi;
 			[_winOutput,_qyt,1,"weapon",1] call _fn_additems;
 			_itemDisplay = getText (configFile >> "CfgWeapons" >> _winOutput >> "displayName");
-			format [localize "STR_CL_GAMBLE_WON",_itemDisplay, _qyt] call dayz_rollingMessages;
+			format [localize "STR_CL_GAMBLE_WON", _qyt, _itemDisplay] call dayz_rollingMessages;
 		};
-		
+
 		if ((_gambleChance > 200) && (_gambleChance < 400)) then {
 			_winOutput = _prizeTools call BIS_fnc_selectRandom;
 			_qyt = 3*_multi;
 			[_winOutput,_qyt,1,"tools",1] call _fn_additems;
 			_itemDisplay = getText (configFile >> "CfgWeapons" >> _winOutput >> "displayName");
-			format [localize "STR_CL_GAMBLE_WON",_itemDisplay, _qyt] call dayz_rollingMessages;
+			format [localize "STR_CL_GAMBLE_WON", _qyt, _itemDisplay] call dayz_rollingMessages;
 		};
-		
+
 		if ((_gambleChance > 400) && (_gambleChance < 600)) then {
 			_winOutput = _prizeAmmo call BIS_fnc_selectRandom;
 			_qyt = 3*_multi;
 			[_winOutput,_qyt,2,"items",1] call _fn_additems;
 			_itemDisplay = getText (configFile >> "CfgMagazines" >> _winOutput >> "displayName");
-			format [localize "STR_CL_GAMBLE_WON",_itemDisplay, _qyt] call dayz_rollingMessages;
+			format [localize "STR_CL_GAMBLE_WON", _qyt, _itemDisplay] call dayz_rollingMessages;
 		};
-		
+
 		if ((_gambleChance > 600) && (_gambleChance < 800)) then {
 			_winOutput = _prizeItems call BIS_fnc_selectRandom;
 			_qyt = 3*_multi;
 			[_winOutput,_qyt,2,"items",1] call _fn_additems;
 			_itemDisplay = getText (configFile >> "CfgMagazines" >> _winOutput >> "displayName");
-			format [localize "STR_CL_GAMBLE_WON",_itemDisplay, _qyt] call dayz_rollingMessages;
+			format [localize "STR_CL_GAMBLE_WON", _qyt, _itemDisplay] call dayz_rollingMessages;
 		};
-		
+
 		if ((_gambleChance > 800) && (_gambleChance < 1000)) then {
 			_winOutput = _prizeItems call BIS_fnc_selectRandom;
 			_qyt = 3*_multi;
 			[_winOutput,_qyt,2,"items",1] call _fn_additems;
 			_itemDisplay = getText (configFile >> "CfgMagazines" >> _winOutput >> "displayName");
-			format [localize "STR_CL_GAMBLE_WON",_itemDisplay, _qyt] call dayz_rollingMessages;					
+			format [localize "STR_CL_GAMBLE_WON", _qyt, _itemDisplay] call dayz_rollingMessages;
 		};
-		
+
 		if ((_gambleChance > 1000) && (_gambleChance < 1200)) then {
 			_winOutput = _prizeAmmo call BIS_fnc_selectRandom;
 			_qyt = 3*_multi;
 			[_winOutput,_qyt,2,"items",1] call _fn_additems;
 			_itemDisplay = getText (configFile >> "CfgMagazines" >> _winOutput >> "displayName");
-			format [localize "STR_CL_GAMBLE_WON",_itemDisplay, _qyt] call dayz_rollingMessages;					
-		};	
-		
+			format [localize "STR_CL_GAMBLE_WON", _qyt, _itemDisplay] call dayz_rollingMessages;
+		};
+
 		if ((_gambleChance > 1200) && (_gambleChance < 1270)) then {
 			_money = player getVariable [Z_MoneyVariable,0];
 			_coins = (2000 + floor(random 40000))*_multi;
 			player setVariable [Z_MoneyVariable,(_money + _coins),true];
 			call player_forceSave;
-			format [localize "STR_CL_GAMBLE_WON_COINS",[_coins] call BIS_fnc_numberText] call dayz_rollingMessages;
-		};	
-		
-		uiSleep 5;	
+			format [localize "STR_CL_GAMBLE_WON_COINS", [_coins] call BIS_fnc_numberText, _currency] call dayz_rollingMessages;
+		};
+
+		uiSleep 5;
 		_gambleChance = nil;
-		Over9000_Gambling = false; 
+		Over9000_Gambling = false;
 	} else {
 		localize "STR_CL_GAMBLE_NO_LUCK" call dayz_rollingMessages;
 		_gambleChance = nil;
-		Over9000_Gambling = false; 
+		Over9000_Gambling = false;
 	};
 };
-
-
