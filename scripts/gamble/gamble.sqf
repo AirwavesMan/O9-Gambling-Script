@@ -114,8 +114,6 @@ if (_hasGold) then {
 			[objNull, player, rSAY, "tada",5] call RE;
 		};
 
-		[player,"tada",0,false,5,true] call dayz_zombieSpeak;
-
 		if (_gambleChance < 200) then {
 			_winOutput = _prizeWeapons call BIS_fnc_selectRandom;
 			_qyt = 1*_multi;
