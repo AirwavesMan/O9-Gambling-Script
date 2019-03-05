@@ -22,7 +22,7 @@ Works only with ZSC: https://github.com/oiad/ZSC
 	```sqf
 	_isGamble = _cursorTarget isKindOf "Hooker4"; // Define here the trader or the building where you get the gambling dialog
 	if (isNil "CurrencyName") then { _gambleCurrency = "Coins"; } else { _gambleCurrency = CurrencyName;};
-	if (Z_singleCurrency && _isGamble && {_isAlive} && {_canDo}) then {
+	if (Z_singleCurrency && _isGamble && {_isAlive}) then {
 		_hasCards = "ItemCards" in magazines player;
 		if (_hasCards) then {
 			if (s_player_gamblefree < 0) then {
