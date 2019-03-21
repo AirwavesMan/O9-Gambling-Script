@@ -128,6 +128,13 @@ Define the trader or the building where you want to get the gambling option in t
 ```sqf
 _isGamble = _cursorTarget isKindOf "Hooker4";
 ```
+Go to dayz_server\traders\YourMapName.sqf and add there the coordiantes and the trader you have defined above.
+E.G.:
+
+```sqf
+["Hooker4",[6321,7781,0],9]
+```
+If you have defined a building, put it in your custom buildings you are loading on server start.
 
 If you have Cards in your inventory, you get a free gambling try.<br>
 You can gamble for 1000, 2000 and 3000 Coins and get the price 1x, 2x and 3x.<br>
