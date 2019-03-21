@@ -171,11 +171,9 @@ if (_hasGold) then {
 		};
 
 		uiSleep 5;
-		_gambleChance = nil;
 		Over9000_Gambling = false;
 	} else {
 		localize "STR_CL_GAMBLE_NO_LUCK" call dayz_rollingMessages;
-		_gambleChance = nil;
 		Over9000_Gambling = false;
 	};
 };
