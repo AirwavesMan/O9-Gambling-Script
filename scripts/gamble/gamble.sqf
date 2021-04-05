@@ -1,10 +1,10 @@
-//////////////////////////////////////////////////////////////
-//////////											//////////
-//////////		Over9000 Gambling Script by A Man	//////////
-//////////		If you use it please give credit	//////////
-//////////		Free to use in Salivals modPack		//////////
-//////////											//////////
-//////////////////////////////////////////////////////////////
+/***************************************************/
+/*	   											   */
+/*	 Over9000 Gambling Script by Airwaves Man      */
+/*	 If you use it please give credit			   */
+/*												   */		
+/*												   */
+/***************************************************/
 
 if ((isNil "Z_singleCurrency") || !Z_singleCurrency) exitWith { diag_log "[ERROR] Over9000 Gambling script won't run without ZSC being installed and enabled."};
 
@@ -46,7 +46,7 @@ _fn_additems = {
 	};
 };
 
-_playerMoney = player getVariable [Z_MoneyVariable,0];
+_playerMoney = player getVariable [(["cashMoney","globalMoney"] select Z_persistentMoney),0];
 _gambleAmount = _this select 3;
 _freeTry = false;
 _hasCards = "ItemCards" in magazines player;
@@ -63,7 +63,7 @@ if (_freeTry) then {
 	player removeMagazine "ItemCards";
 } else {
 	_playerMoneyNew = _playerMoney - _gambleAmount;
-	player setVariable [Z_MoneyVariable,_playerMoneyNew,true];
+	player setVariable [(["cashMoney","globalMoney"] select Z_persistentMoney),_playerMoneyNew,true];
 };
 
 call player_forceSave;
@@ -105,9 +105,9 @@ if (_hasGold) then {
 		if (_gambleChance == 1499) then {
 			uisleep 2;
 			[objNull, player, rSAY, "tada",5] call RE;
-			_money = player getVariable [Z_MoneyVariable,0];
+			_money = player getVariable [(["cashMoney","globalMoney"] select Z_persistentMoney),0];
 			_coins = (400000 + floor(random 2000000))*_multi; // Jackpot
-			player setVariable [Z_MoneyVariable,(_money + _coins),true];
+			player setVariable [(["cashMoney","globalMoney"] select Z_persistentMoney),(_money + _coins),true];
 			call player_forceSave;
 			format [localize "STR_CL_GAMBLE_WON_COINS_JACKPOT", [_coins] call BIS_fnc_numberText, _currency] call dayz_rollingMessages;
 			uisleep 2;
@@ -163,9 +163,9 @@ if (_hasGold) then {
 		};
 
 		if ((_gambleChance > 1200) && (_gambleChance < 1270)) then {
-			_money = player getVariable [Z_MoneyVariable,0];
+			_money = player getVariable [(["cashMoney","globalMoney"] select Z_persistentMoney),0];
 			_coins = (2000 + floor(random 40000))*_multi;
-			player setVariable [Z_MoneyVariable,(_money + _coins),true];
+			player setVariable [(["cashMoney","globalMoney"] select Z_persistentMoney),(_money + _coins),true];
 			call player_forceSave;
 			format [localize "STR_CL_GAMBLE_WON_COINS", [_coins] call BIS_fnc_numberText, _currency] call dayz_rollingMessages;
 		};

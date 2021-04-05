@@ -1,10 +1,9 @@
-# Over9000 Gambling Script
+# Over9000 Gambling Script for Epoch 1.0.7+
 
-Over9000 Gambling Script by A Man<br>
+Over9000 Gambling Script by Airwaves Man<br>
 If you use it, please give credit<br>
-Free to use in Salivals modPack<br>
 
-Works only with ZSC: https://github.com/oiad/ZSC
+Works only if Z_singleCurrency = true;
 
 <br>
 
@@ -22,7 +21,7 @@ Works only with ZSC: https://github.com/oiad/ZSC
 	```sqf
 	_isGamble = _cursorTarget isKindOf "Hooker4"; // Define here the trader or the building where you get the gambling dialog
 	if (isNil "CurrencyName") then { _gambleCurrency = "Coins"; } else { _gambleCurrency = CurrencyName;};
-	if (Z_singleCurrency && _isGamble && {_isAlive}) then {
+	if (Z_singleCurrency && _isGamble && _isAlive) then {
 		_hasCards = "ItemCards" in magazines player;
 		if (_hasCards) then {
 			if (s_player_gamblefree < 0) then {
@@ -116,9 +115,6 @@ Works only with ZSC: https://github.com/oiad/ZSC
 	```
 
 	If you start the server and you get the error "class CfgSounds is already defined", you have to search your CfgSounds class in other files.
-
-6.	Go to https://github.com/oiad/communityLocalizations and add the whole stringtable to the root folder of your missionfile where your init.sqf is.
-
 <br>
 
 **Usage:**
