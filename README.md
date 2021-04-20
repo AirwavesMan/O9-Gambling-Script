@@ -1,28 +1,41 @@
-# Over9000 Gambling Script for Epoch 1.0.7+
+# Over9000 Gambling Script for Epoch 1.0.7
 
 Over9000 Gambling Script by Airwaves Man<br>
-If you use it, please give credit<br>
 
 Works only if Z_singleCurrency = true;
 
-<br>
+# Index:
 
-**Installation:**
+* [Mission folder install](https://github.com/AirwavesMan/Over9000-Gambling-Script#mission-folder-install)
+* [BattlEye filter install](https://github.com/AirwavesMan/Over9000-Gambling-Script#battleye-filter-install)
+* [Usage](https://github.com/AirwavesMan/Over9000-Gambling-Script#usage)
 
-1.	Put the scripts folder from github into your missionfile root folder where your init.sqf is located.
-2.	Open your fn_selfactions.sqf and search for:
+**[>> Download <<](https://github.com/AirwavesMan/Over9000-Gambling-Script/archive/refs/heads/master.zip)**
+
+# Install:
+
+* This install basically assumes you have a custom variables.sqf, compiles.sqf and fn_selfActions.sqf.
+
+** If not, visit this repo and follow the steps there**
+https://github.com/AirwavesMan/custom-epoch-functions
+
+
+# Mission folder install:
+
+1. 	Open your fn_selfactions.sqf and search for:
 
 	```sqf
-	//Towing with tow truck
+	// ZSC
+	if (Z_singleCurrency) then {
 	```
 
-	Add this code lines **above**:
-
+	Add this code lines above:
+	
 	```sqf
-	_isGamble = _cursorTarget isKindOf "Hooker4"; // Define here the trader or the building where you get the gambling dialog
+	local _isGamble = _cursorTarget isKindOf "Hooker4"; // Define here the trader or the building where you get the gambling dialog
 	if (isNil "CurrencyName") then { _gambleCurrency = "Coins"; } else { _gambleCurrency = CurrencyName;};
 	if (Z_singleCurrency && _isGamble && _isAlive) then {
-		_hasCards = "ItemCards" in magazines player;
+		local _hasCards = "ItemCards" in magazines player;
 		if (_hasCards) then {
 			if (s_player_gamblefree < 0) then {
 				s_player_gamblefree = player addAction [localize "STR_CL_GAMBLE_PRICEFREE", "scripts\gamble\gamble.sqf",0, 1, false, true];
@@ -48,18 +61,17 @@ Works only if Z_singleCurrency = true;
 		s_player_gamble3 = -1;
 	};
 	```
-
-3.	In fn_selfactions search for this codeblock:
+	
+2. In fn_selfactions search for this codeblock:
 
 	```sqf
-		player removeAction s_player_fuelauto2;
-		s_player_fuelauto2 = -1;
-		player removeAction s_player_manageDoor;
-		s_player_manageDoor = -1;
-	```
-
-	And add this **below**:
-
+	player removeAction s_bank_dialog3;
+	s_bank_dialog3 = -1;
+	player removeAction s_player_checkWallet;
+	s_player_checkWallet = -1;	
+	```	
+	And add this below:
+	
 	```sqf
 	player removeAction s_player_gamblefree;
 	s_player_gamblefree = -1;
@@ -70,23 +82,24 @@ Works only if Z_singleCurrency = true;
 	player removeAction s_player_gamble3;
 	s_player_gamble3 = -1;
 	```
-
-4.	Open your variables.sqf and search for:
+	
+3. Open your variables.sqf and search for:
 
 	```sqf
-	s_player_manageDoor = -1;
+	s_bank_dialog3 = -1;
+	s_player_checkWallet = -1;	
 	```
-
-	And add behind this **below**:
-
+	And add this below:
+	
 	```sqf
 	s_player_gamblefree = -1;
 	s_player_gamble1 = -1;
 	s_player_gamble2 = -1;
 	s_player_gamble3 = -1;
 	```
+	
 
-5.	Open your description.ext and search for the class CfgSounds.
+4.	Open your description.ext and search for the class CfgSounds.
 
 	**Inside** the class CfgSounds, add:
 
@@ -114,10 +127,14 @@ Works only if Z_singleCurrency = true;
 	};
 	```
 
-	If you start the server and you get the error "class CfgSounds is already defined", you have to search your CfgSounds class in other files.
+	If you start the server and you get the error "class CfgSounds is already defined", you have to search your CfgSounds class in your other .hpp files.
 <br>
 
-**Usage:**
+# BattlEye filter install:
+
+Not added so far
+
+# Usage:
 
 Define the trader or the building where you want to get the gambling option in the fn_selfactions here:
 
