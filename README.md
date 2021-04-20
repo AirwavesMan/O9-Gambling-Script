@@ -1,6 +1,6 @@
-# Over9000 Gambling Script for Epoch 1.0.7
+# O9 Gambling Script for Epoch 1.0.7
 
-Over9000 Gambling Script by Airwaves Man<br>
+O9 Gambling Script by Airwaves Man<br>
 
 Works only if Z_singleCurrency = true;
 
@@ -32,33 +32,34 @@ https://github.com/AirwavesMan/custom-epoch-functions
 	Add this code lines above:
 	
 	```sqf
-	local _isGamble = _cursorTarget isKindOf "Hooker4"; // Define here the trader or the building where you get the gambling dialog
-	if (isNil "CurrencyName") then { _gambleCurrency = "Coins"; } else { _gambleCurrency = CurrencyName;};
-	if (Z_singleCurrency && _isGamble && _isAlive) then {
-		local _hasCards = "ItemCards" in magazines player;
-		if (_hasCards) then {
-			if (s_player_gamblefree < 0) then {
-				s_player_gamblefree = player addAction [localize "STR_CL_GAMBLE_PRICEFREE", "scripts\gamble\gamble.sqf",0, 1, false, true];
+	if (Z_singleCurrency) then {	
+		local _isGamble = _cursorTarget isKindOf "Hooker4"; // Define here the trader or the building where you get the gambling dialog
+		if (_isGamble && _isAlive) then {			
+			local _hasCards = "ItemCards" in magazines player;
+			if (_hasCards) then {
+				if (s_player_gamblefree < 0) then {
+					s_player_gamblefree = player addAction [localize "STR_CL_GAMBLE_PRICEFREE", "scripts\gamble\gamble.sqf",0, 1, false, true];
+				};
 			};
+			if (s_player_gamble1 < 0) then {
+				s_player_gamble1 = player addAction [format [localize "STR_CL_GAMBLE_PRICE1x", CurrencyName], "scripts\gamble\gamble.sqf",1000, 1, false, true];
+			};
+			if (s_player_gamble2 < 0) then {
+				s_player_gamble2 = player addAction [format [localize "STR_CL_GAMBLE_PRICE2x", CurrencyName], "scripts\gamble\gamble.sqf",2000, 1, false, true];
+			};
+			if (s_player_gamble3 < 0) then {
+				s_player_gamble3 = player addAction [format [localize "STR_CL_GAMBLE_PRICE3x", CurrencyName], "scripts\gamble\gamble.sqf",3000, 1, false, true];
+			};
+		} else {
+			player removeAction s_player_gamblefree;
+			s_player_gamblefree = -1;
+			player removeAction s_player_gamble1;
+			s_player_gamble1 = -1;
+			player removeAction s_player_gamble2;
+			s_player_gamble2 = -1;
+			player removeAction s_player_gamble3;
+			s_player_gamble3 = -1;
 		};
-		if (s_player_gamble1 < 0) then {
-			s_player_gamble1 = player addAction [format [localize "STR_CL_GAMBLE_PRICE1x", _gambleCurrency], "scripts\gamble\gamble.sqf",1000, 1, false, true];
-		};
-		if (s_player_gamble2 < 0) then {
-			s_player_gamble2 = player addAction [format [localize "STR_CL_GAMBLE_PRICE2x", _gambleCurrency], "scripts\gamble\gamble.sqf",2000, 1, false, true];
-		};
-		if (s_player_gamble3 < 0) then {
-			s_player_gamble3 = player addAction [format [localize "STR_CL_GAMBLE_PRICE3x", _gambleCurrency], "scripts\gamble\gamble.sqf",3000, 1, false, true];
-		};
-	} else {
-		player removeAction s_player_gamblefree;
-		s_player_gamblefree = -1;
-		player removeAction s_player_gamble1;
-		s_player_gamble1 = -1;
-		player removeAction s_player_gamble2;
-		s_player_gamble2 = -1;
-		player removeAction s_player_gamble3;
-		s_player_gamble3 = -1;
 	};
 	```
 	
