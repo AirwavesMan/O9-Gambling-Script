@@ -1,4 +1,4 @@
-# O9 Gambling Script for Epoch 1.0.7
+# O9 Gambling Script for Epoch 1.0.7.1+
 
 O9 Gambling Script by Airwaves Man<br>
 
